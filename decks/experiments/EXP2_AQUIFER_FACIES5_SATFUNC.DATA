@@ -1,0 +1,237 @@
+RUNSPEC
+TITLE
+'SPE11B baseline deck from project files' /
+
+DIMENS
+842 1 120 /
+
+AQUDIMS
+2 2 1* 1* 1* 1* 1* 1* /
+
+WATER
+GAS
+CO2STORE
+DISGASW
+
+EQLDIMS
+1 /
+
+METRIC
+
+WELLDIMS
+2 100 2 2 /
+
+TABDIMS
+7 1 21 21 /
+
+START
+1 JAN 2000 /
+
+GRID
+INIT
+
+--ACTNUM
+-- Kolonne I=1 (120 celler) = inaktiv
+--120*0
+-- Kolonner I=2 til I=841 (840*120 = 100800 celler) = aktiv  
+--100800*1
+-- Kolonne I=842 (120 celler) = inaktiv
+--120*0
+/
+
+INCLUDE
+'../include/DX.INC' /
+
+DY
+101040*1 /
+
+DZ
+101040*10 /
+
+TOPS
+842*2000 /
+
+INCLUDE
+'../include/PERMX.INC' /
+
+COPY
+PERMX PERMY /
+PERMX PERMZ /
+/
+
+MULTIPLY
+PERMZ 0.1 /
+/
+
+INCLUDE
+'../include/PORO.INC' /
+
+AQUNUM
+-- AQID  I    J   K   AREA   LENGTH  PORO  PERM  DATUM  PRESS  PVTNUM  SATNUM
+   1     1    1   1  100    50000  0.25  1000  2900    300     1*      5      /
+   2     2  1   2  200    50000   0.25  1000  2900    300     1*      5     /
+/
+
+AQUCON
+-- AQID  I1  I2   J1  J2  K1  K2  FACE   MULT  AQUOPT1  ADJOIN
+   1     2   2    1   1   91  110  'I-'   1*    0        'NO'   /
+   2     841 841  1   1   83  120  'I+'   1*    0        'NO'   /
+/
+
+EDIT
+
+PROPS
+
+RTEMP
+70 /
+/
+
+DIFFAWAT
+8.64e-5 8.64e-5 /
+
+DIFFAGAS
+1.728e-3 1.728e-3 /
+
+INCLUDE
+'../include/SGWFN_5.INC' /
+
+ROCK
+1.0 4.35D-5 /
+
+REGIONS
+
+INCLUDE
+'../include/SATNUM.INC' /
+
+INCLUDE
+'../include/FIPNUM.INC' /
+
+SOLUTION
+
+EQUIL
+2900 300 0 0 4* /
+
+RSW
+101040*0 /
+
+RPTRST
+BASIC=2 RSWSAT /
+
+SUMMARY
+
+FPR
+FGIP
+FGIR
+FGIT
+
+WBHP
+INJ1
+INJ2
+/
+
+WGIR
+INJ1
+INJ2
+/
+
+WGIT
+INJ1
+INJ2
+/
+
+--POP1/2
+BWPR
+451 1 70 /
+511 1 70 /
+/
+
+RGIP
+1 2 3 4 5 6 7 8 9 10 11 /
+
+RGMGP
+1 2 3 4 5 6 7 8 9 10 11 /
+
+RGMDS
+1 2 3 4 5 6 7 8 9 10 11 /
+
+RGMST
+1 2 3 4 5 6 7 8 9 10 11 /
+
+RGMUS
+1 2 3 4 5 6 7 8 9 10 11 /
+
+RGMMO
+1 2 3 4 5 6 7 8 9 10 11 /
+
+RGCDM
+1 2 3 4 5 6 7 8 9 10 11 /
+
+RGKMO
+1 2 3 4 5 6 7 8 9 10 11 /
+
+RGCDI
+1 2 3 4 5 6 7 8 9 10 11 /
+
+RGKDM
+1 2 3 4 5 6 7 8 9 10 11 /
+
+RGKDI
+1 2 3 4 5 6 7 8 9 10 11 /
+
+RGKTR
+1 2 3 4 5 6 7 8 9 10 11 /
+
+RWCD
+1 2 3 4 5 6 7 8 9 10 11 /
+
+/
+
+
+
+SCHEDULE
+
+RPTRST
+BASIC=2 RSWSAT /
+/
+
+WELSPECS
+INJ1 G1 270 1 2900 GAS /
+INJ2 G2 510 1 2500 GAS /
+/
+
+COMPDAT
+INJ1 270 1 90 90 OPEN 1* 1* 0.30 4* /
+INJ2 510 1 50 50 OPEN 1* 1* 0.30 4* /
+/
+
+WCONINJE
+INJ1 GAS OPEN RATE 1600 1* 600 /
+INJ2 GAS SHUT RATE 0.0  1* 600 /
+/
+
+TSTEP
+25*365 /
+/
+
+WCONINJE
+INJ1 GAS OPEN RATE 1600 1* 600 /
+INJ2 GAS OPEN RATE 1600 1* 600 /
+/
+
+TSTEP
+25*365 /
+/
+
+WCONINJE
+INJ1 GAS SHUT RATE 0.0 1* 600 /
+INJ2 GAS SHUT RATE 0.0 1* 600 /
+/
+
+TSTEP
+190*1825 /
+/
+
+--mogo free gas, immobile free gas, dissvolde, co2 in place, 
+
+
+END
